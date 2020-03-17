@@ -1,0 +1,97 @@
+import firebase from "firebase/app";
+
+// Add the Firebase services that you want to use
+import "firebase/auth";
+import "firebase/firestore";
+import "firebase/database"
+
+
+class Fire{
+
+
+    constructor(){
+
+        this.init()
+        this.checkAuth()
+
+    }
+
+    init = () =>{
+        // if (!firebase.app.length){
+            firebase.initializeApp({
+                apiKey: "AIzaSyBQ-177bOc9oYcFYkkEFIWCGM9sPBOQgJ8",
+                authDomain: "capstone-5515a.firebaseapp.com",
+                databaseURL: "https://capstone-5515a.firebaseio.com",
+                projectId: "capstone-5515a",
+                storageBucket: "capstone-5515a.appspot.com",
+                messagingSenderId: "1029326192567",
+                appId: "1:1029326192567:web:a45a3faa83bfefe6437232",
+                measurementId: "G-3QL74N87GF"
+              })
+        // }
+    }
+    checkAuth = ()=>{
+       firebase.auth().onAuthStateChanged(user =>{
+           if(!user){
+               firebase.auth().signInAnonymously();
+           }
+       }) 
+    }
+
+    send = messages =>{
+        messages.forEach(item => {
+            const message = {
+                text: item.text,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                user:item.user
+            }
+            console.log("here");
+            console.log("blahh");
+            console.log(message);
+            console.log(this.uid);
+            console.log("now");
+        
+            this.db.push(message);
+
+        });
+    }
+
+    parse = message =>{
+        
+        console.log()
+        const {user,text,timestamp} = message.val();
+        const {key: _id} =  message;
+        const createAt = new Date(timestamp);
+
+        console.log("parse mess");
+        console.log(message);
+
+        return {
+            _id,
+            createAt,
+            text,
+            user
+        }
+    }
+
+    get = callback =>{
+        this.db.on("child_added",snapshot => callback(this.parse(snapshot)))
+    }
+
+    off(){
+        this.db.off();
+    }
+
+    get uid(){
+        return (firebase.auth().currentUser || {}).uid
+        // return firebase.auth().currentUser.uid;
+    }
+
+    get db(){
+        // return firebase.firestore().collection("messages")
+        return firebase.database().ref("messages");
+    }
+}
+
+
+export default new Fire();
