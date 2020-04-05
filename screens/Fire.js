@@ -45,11 +45,7 @@ class Fire{
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 user:item.user
             }
-            console.log("here");
-            console.log("blahh");
-            console.log(message);
-            console.log(this.uid);
-            console.log("now");
+            
         
             this.db.push(message);
 
@@ -63,8 +59,7 @@ class Fire{
         const {key: _id} =  message;
         const createAt = new Date(timestamp);
 
-        console.log("parse mess");
-        console.log(message);
+        
 
         return {
             _id,

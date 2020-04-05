@@ -11,12 +11,7 @@ export default class ChatScreen extends Component{
     }
 
     get user(){
-        console.log("inside user");
-        console.log(Fire.uid)
-        console.log({
-            _id: Fire.uid,
-            name: "jordan"
-        });
+        
         return {
             _id: 1,
             name: "jordan"
