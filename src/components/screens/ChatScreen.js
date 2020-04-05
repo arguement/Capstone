@@ -1,13 +1,30 @@
 import React,{Component} from "react";
 import { View,Text,StyleSheet } from "react-native";
 import {GiftedChat} from "react-native-gifted-chat";
-import Fire from "./Fire";
+import Fire from "../Fire";
+
+
+
+
 
 export default class ChatScreen extends Component{
+
+    
     
 
     state = {
-        messages : []
+        messages : [
+            {
+                _id: 1,
+                text: `Hi! I am the Eagle Eye \nyou can begin your conversation`,
+                createdAt: new Date(),
+                user: {
+                  _id: 2,
+                  name: 'FAQ Bot',
+                  avatar: 'https://i.imgur.com/7k12EPD.png'
+                }
+              }
+        ]
     }
 
     get user(){
@@ -18,14 +35,20 @@ export default class ChatScreen extends Component{
         }
     }
 
+    
+
     componentDidMount(){
+
+        
+        
+
         Fire.get(message => 
             this.setState(previous =>({
                 messages: GiftedChat.append(previous.messages,message)
             })))
     }
 
-    componentWillMount(){
+    componentWillUnmount(){
         Fire.off();
     }
     render(){
