@@ -10,7 +10,7 @@ class Fire{
 
     constructor(){
 
-        this.init()
+         this.init()
         this.checkAuth()
         dialogFlowSetup()
         
@@ -18,7 +18,7 @@ class Fire{
 
     }
 
-    init = () =>{
+     init = async() =>{
         if (!firebase.app.length){
             firebase.initializeApp({
                 apiKey: "AIzaSyBQ-177bOc9oYcFYkkEFIWCGM9sPBOQgJ8",

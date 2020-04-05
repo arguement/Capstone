@@ -21,7 +21,7 @@ export default class ChatScreen extends Component{
                 user: {
                   _id: 2,
                   name: 'FAQ Bot',
-                  avatar: 'https://i.imgur.com/7k12EPD.png'
+                  avatar: 'https://w0.pngwave.com/png/695/247/chatbot-logo-robotics-robot-png-clip-art.png'
                 }
               }
         ]
