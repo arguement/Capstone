@@ -42,20 +42,20 @@ export default class ChatScreen extends Component{
         
         
 
-        Fire.get(message => 
+        Fire.shared.get(message => 
             this.setState(previous =>({
                 messages: GiftedChat.append(previous.messages,message)
             })))
     }
 
     componentWillUnmount(){
-        Fire.off();
+        Fire.shared.off();
     }
     render(){
         return (
             <GiftedChat
                 messages={this.state.messages}
-                onSend={Fire.send}
+                onSend={Fire.shared.send}
                 user={this.user}
       />
         );
