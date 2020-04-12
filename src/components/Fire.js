@@ -18,7 +18,7 @@ class Fire{
 
     }
 
-     init = async() =>{
+     init = () =>{
         // if (!firebase.app.length){
             firebase.initializeApp({
                 apiKey: "AIzaSyBQ-177bOc9oYcFYkkEFIWCGM9sPBOQgJ8",
@@ -50,7 +50,7 @@ class Fire{
             let mess = messages[0].text;
 
             
-            requestQuery(mess,this.db)
+            requestQuery(mess,this.db,this.firestoreDb)
         
             this.db.push(message);
 
@@ -90,6 +90,10 @@ class Fire{
     get db(){
         // return firebase.firestore().collection("messages")
         return firebase.database().ref("messages");
+    }
+
+    get firestoreDb(){
+        return firebase.firestore();
     }
 }
 

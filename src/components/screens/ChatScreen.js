@@ -53,11 +53,15 @@ export default class ChatScreen extends Component{
     }
     render(){
         return (
-            <GiftedChat
-                messages={this.state.messages}
-                onSend={Fire.shared.send}
-                user={this.user}
-      />
+            
+                
+                <GiftedChat
+                    messages={this.state.messages}
+                    onSend={Fire.shared.send}
+                    user={this.user}
+                
+        />
+           
         );
     }
 }

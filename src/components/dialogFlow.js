@@ -16,8 +16,38 @@ const dialogFlowSetup = ()=>{
         dialogflowConfig.project_id
       );
 }
-function handleGoogleResponse(result,db) {
+function handleGoogleResponse(result,db,firestoreDb) {
     let text = result.queryResult.fulfillmentMessages[0].text.text[0];
+    console.log(result);
+    console.log("______")
+    console.log(result.queryResult);
+    console.log(`all required fields: ${result.queryResult.allRequiredParamsPresent == true}`);
+    console.log(result.queryResult.parameters)
+
+    if (result.queryResult.intent.displayName == "getCrimeDescription"){
+
+      const {
+        "crime-categories":crimeCategory,
+        "date-time":dateTime,
+        time,
+        victim,
+        location: {city}
+      } = result.queryResult.parameters;
+
+      const data = {
+        crimeCategory,
+        dateTime,
+        time,
+        victim,
+        city
+      }
+
+      firestoreDb.collection("Crime Report").add(data).then(ref => {
+        // console.log('Added document with ID: ', ref.id);
+      });
+      
+      
+  }
     sendBotResponse(text,db);
 }
 
@@ -37,10 +67,10 @@ function sendBotResponse(text,db) {
     
   }
 
-  function requestQuery(message,db){
+  function requestQuery(message,db,firestoreDb){
     Dialogflow_V2.requestQuery(
         message,
-        result => handleGoogleResponse(result,db),
+        result => handleGoogleResponse(result,db,firestoreDb),
         error => console.log(error)
       );
   }
