@@ -28,26 +28,7 @@ function handleGoogleResponse(result,db,firestoreDb) {
 
     if (result.queryResult.intent.displayName == "getCrimeDescription"){
 
-      // const {
-      //   "crime-categories":crimeCategory,
-      //   "date-time":dateTime,
-      //   time,
-      //   victim,
-      //   location: {city}
-      // } = result.queryResult.parameters;
-
-      // const data = {
-      //   crimeCategory,
-      //   dateTime,
-      //   time,
-      //   victim,
-      //   city
-      // }
-
-      // firestoreDb.collection("Crime Report").add(data).then(ref => {
-        
-      // });
-      
+     
       
   }
     if (result.queryResult.intent.displayName == "2 - getOffenders"){
@@ -67,12 +48,14 @@ function handleGoogleResponse(result,db,firestoreDb) {
 
       let currentDate = new Date();
       const {"crime-categories":cat,"location.original":location,"date-time":dateTimeCommited,weapon,gender} = test;
-      payload = {...payload,"offence":cat[1],"offence-location":location,"date-time-commited":dateTimeCommited,weapon,"gender":gender[0]}
+      payload = {...payload,"offence":cat[1]||cat[0],"offence-location":location,"date-time-commited":dateTimeCommited,weapon,"gender":gender[0]}
       console.log(payload);
 
        firestoreDb.collection("Crime Report").add(payload).then(ref => {
         console.log("stored");
-      });
+      }).catch(()=>{
+        console.log("error");
+      })
 
     }
 }
