@@ -1,7 +1,7 @@
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import {dialogflowConfig} from './env';
 
-
+let payload = {}
 const BOT_USER = {
     _id: 2,
     name: 'Eagle Eye',
@@ -18,36 +18,64 @@ const dialogFlowSetup = ()=>{
 }
 function handleGoogleResponse(result,db,firestoreDb) {
     let text = result.queryResult.fulfillmentMessages[0].text.text[0];
-    console.log(result);
+    // console.log(result);
     console.log("______")
     console.log(result.queryResult);
-    console.log(`all required fields: ${result.queryResult.allRequiredParamsPresent == true}`);
-    console.log(result.queryResult.parameters)
+    
+    // console.log(result.queryResult.parameters)
+
+    
 
     if (result.queryResult.intent.displayName == "getCrimeDescription"){
 
-      const {
-        "crime-categories":crimeCategory,
-        "date-time":dateTime,
-        time,
-        victim,
-        location: {city}
-      } = result.queryResult.parameters;
+      // const {
+      //   "crime-categories":crimeCategory,
+      //   "date-time":dateTime,
+      //   time,
+      //   victim,
+      //   location: {city}
+      // } = result.queryResult.parameters;
 
-      const data = {
-        crimeCategory,
-        dateTime,
-        time,
-        victim,
-        city
-      }
+      // const data = {
+      //   crimeCategory,
+      //   dateTime,
+      //   time,
+      //   victim,
+      //   city
+      // }
 
-      firestoreDb.collection("Crime Report").add(data).then(ref => {
-        // console.log('Added document with ID: ', ref.id);
-      });
+      // firestoreDb.collection("Crime Report").add(data).then(ref => {
+        
+      // });
       
       
   }
+    if (result.queryResult.intent.displayName == "2 - getOffenders"){
+
+      payload.description = result.queryResult.fulfillmentText;
+      // console.log(result.queryResult.fulfillmentText);
+      
+      
+  }
+  if ("diagnosticInfo" in result.queryResult) {
+    //"end_conversation"
+  
+    if (result.queryResult.diagnosticInfo.end_conversation == true){
+      const context = result.queryResult.outputContexts;
+
+      const test = context[1].parameters;
+
+      let currentDate = new Date();
+      const {"crime-categories":cat,"location.original":location,"date-time":dateTimeCommited,weapon,gender} = test;
+      payload = {...payload,"offence":cat[1],"offence-location":location,"date-time-commited":dateTimeCommited,weapon,"gender":gender[0]}
+      console.log(payload);
+
+       firestoreDb.collection("Crime Report").add(payload).then(ref => {
+        console.log("stored");
+      });
+
+    }
+}
     sendBotResponse(text,db);
 }
 
