@@ -46,6 +46,8 @@ export default class ChatScreen extends Component{
             this.setState(previous =>({
                 messages: GiftedChat.append(previous.messages,message)
             })))
+
+        console.log("finish");
     }
 
     componentWillUnmount(){

@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {View,Text,StyleSheet,TouchableOpacity} from 'react-native';
 import { TextInput,Button } from 'react-native-paper';
-
+import { Input } from '@ui-kitten/components';
 
 export default function Field(props){
 
@@ -9,7 +9,7 @@ export default function Field(props){
         <View style={props.style}>
 
 
-                    <TextInput
+                    <Input
                     label="Name"
                     returnKeyType="next"
                     value={props.value}

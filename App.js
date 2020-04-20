@@ -8,20 +8,34 @@ import ChatScreen from './src/components/screens/ChatScreen';
 import LoginScreen from './src/components/screens/Login';
 import RegisterScreen from './src/components/screens/RegisterScreen';
 
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
+
+
+console.disableYellowBox = true;
 const MainStack = createStackNavigator();
 
 
-export default function App(props) {
+function App(props) {
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <MainStack.Navigator initialRouteName="Register">
-          <MainStack.Screen name="Home" component={ChatScreen} />
-          <MainStack.Screen name="Login" component={LoginScreen} />
-          <MainStack.Screen name="Register" component={RegisterScreen} />
-          
-        </MainStack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    
+      <PaperProvider>
+        <NavigationContainer>
+          <MainStack.Navigator initialRouteName="Register">
+            <MainStack.Screen name="Home" component={ChatScreen} />
+            <MainStack.Screen name="Login" component={LoginScreen} />
+            <MainStack.Screen name="Register" component={RegisterScreen} />
+            
+          </MainStack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    
   );
+
 }
+
+export default () => (
+  <ApplicationProvider {...eva} theme={eva.light}>
+    <App />
+  </ApplicationProvider>
+);

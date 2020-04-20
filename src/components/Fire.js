@@ -19,7 +19,8 @@ class Fire{
     }
 
      init = () =>{
-        // if (!firebase.app.length){
+         console.log(firebase.app.length)
+        if (firebase.app.length < 2){
             firebase.initializeApp({
                 apiKey: "AIzaSyBQ-177bOc9oYcFYkkEFIWCGM9sPBOQgJ8",
                 authDomain: "capstone-5515a.firebaseapp.com",
@@ -30,7 +31,9 @@ class Fire{
                 appId: "1:1029326192567:web:a45a3faa83bfefe6437232",
                 measurementId: "G-3QL74N87GF"
               })
-        // }
+
+            
+        }
     }
     checkAuth = ()=>{
        firebase.auth().onAuthStateChanged(user =>{
