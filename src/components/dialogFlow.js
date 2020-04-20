@@ -1,5 +1,6 @@
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import {dialogflowConfig} from './env';
+import store from '../store';
 
 let payload = {}
 const BOT_USER = {
@@ -45,13 +46,58 @@ function handleGoogleResponse(result,db,firestoreDb) {
       const context = result.queryResult.outputContexts;
 
       const test = context[1].parameters;
+      const state = store.getState();
+      const registerData = state.registerData;
 
       let currentDate = new Date();
       const {"crime-categories":cat,"location.original":location,"date-time":dateTimeCommited,weapon,gender} = test;
-      payload = {...payload,"offence":cat[1]||cat[0],"offence-location":location,"date-time-commited":dateTimeCommited,weapon,"gender":gender[0]}
+
+      payload = {
+        ...payload,
+        "date-time-reported":currentDate,
+        "offence":cat[1]||cat[0],
+        "offence-location":location,
+        "date-time-commited":dateTimeCommited,
+        weapon,
+        "gender":gender[0]
+      }
       console.log(payload);
 
-       firestoreDb.collection("Crime Report").add(payload).then(ref => {
+      const {
+        birthDate,
+        email,
+        fname,
+        homeAddress,
+         maidenName,
+       middleName,
+        surname,
+        nationality,
+        occupation,
+        residentStatus,
+        cellNumber
+    } = registerData;
+  
+        
+  
+        
+      const registerPayload = {
+          "birth-date":birthDate,
+          email,
+          "first-name":fname,
+          "home-address": homeAddress,
+          "maiden-name": maidenName,
+          "middle-name": middleName,
+          surname,
+          nationality,
+          occupation,
+          "resident-status": residentStatus,
+          "cell-number": cellNumber
+      }
+      console.log(registerPayload)
+
+      const combinePayload = {...payload,...registerPayload};
+
+       firestoreDb.collection("Crime Report").add(combinePayload).then(ref => {
         console.log("stored");
       }).catch(()=>{
         console.log("error");
@@ -59,6 +105,7 @@ function handleGoogleResponse(result,db,firestoreDb) {
 
     }
 }
+    console.log("sending responses");
     sendBotResponse(text,db);
 }
 

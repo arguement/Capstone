@@ -1,12 +1,53 @@
 import React,{Component} from 'react'
 import {View,Text,StyleSheet,TouchableOpacity} from 'react-native';
 import { TextInput,Button } from 'react-native-paper';
+import { connect } from 'react-redux'
 
-export default class extends Component{
+class Login extends Component{
 
     state ={
         name: '',
         pass: ''
+    }
+
+    componentDidMount(){
+        console.log(this.props.data);
+        /* const date = this.props.data.birthDate;
+        console.log(typeof(date))
+        console.log(date)
+        
+        const registerData = this.props.data;
+        const {
+        birthDate,
+        email,
+        fname,
+        homeAddress,
+         maidenName,
+       middleName,
+        surname,
+        nationality,
+        occupation,
+        residentStatus,
+        cellNumber
+    } = registerData;
+  
+        
+  
+        console.log(registerData.birthDate)
+        const registerPayload = {
+            "birth-date":birthDate,
+            email,
+            "first-name":fname,
+            "home-address": homeAddress,
+            "maiden-name": maidenName,
+            "middle-name": middleName,
+            surname,
+            nationality,
+            occupation,
+            "resident-status": residentStatus,
+            "cell-number": cellNumber
+        }
+        console.log(registerPayload); */
     }
 
 
@@ -54,6 +95,12 @@ export default class extends Component{
     }
 }
 
+
+const mapStateToProps = state => ({
+    data: state.registerData
+})
+
+export default connect(mapStateToProps,null)(Login);
 
 
 const styles = StyleSheet.create({

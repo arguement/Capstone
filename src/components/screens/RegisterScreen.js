@@ -3,9 +3,10 @@ import {View,Text,StyleSheet,TouchableOpacity,ScrollView} from 'react-native';
 import { TextInput,Button } from 'react-native-paper';
 import Field from "../reuse/Field";
 import DatePicker from "../reuse/DatePicker";
+import { connect } from 'react-redux'
 
 
-export default class RegisterScreen extends Component{
+class RegisterScreen extends Component{
 
     state = {
         fname: "",
@@ -22,6 +23,14 @@ export default class RegisterScreen extends Component{
         residentStatus: "",
         pass: "",
         confirmPass: ""
+    }
+
+
+    register = ()=>{
+        const {pass,confirmPass,...tosend} = this.state;
+        this.props.resgisterDispatch(tosend);
+        this.props.navigation.navigate('Login')
+
     }
 
    
@@ -119,22 +128,7 @@ export default class RegisterScreen extends Component{
                         
                         
                     />
-                     {/* {
-        fname: "",
-        surname: "",
-        middleName: "",
-        birthDate: new Date(),
-        cellNumber: "",
-        email: "",
-        homeAddress: "",
-        maidenName: "",
-        occupation :"",
-        homeNumber: "",
-        nationality: "",
-        residentStatus: "",
-        pass: "",
-        confirmPass: ""
-    } */}
+                     
                     <Field 
                         label="Nationality"
                         value={this.state.nationality}
@@ -191,7 +185,7 @@ export default class RegisterScreen extends Component{
                     </View>
                     
 
-                    <Button  mode="contained" onPress={()=>this.props.navigation.navigate('Login')}>
+                    <Button  mode="contained" onPress={this.register}>
                         Press me
                     </Button>
                     
@@ -203,6 +197,16 @@ export default class RegisterScreen extends Component{
         );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+
+    return {
+    resgisterDispatch: data => dispatch({type: "STORE",data})
+}
+
+}
+
+export default connect(null, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
     inputContainerStyles: {

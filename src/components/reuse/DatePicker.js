@@ -15,6 +15,7 @@ export default function DatePicker(props)  {
         date={props.date}
         onSelect={/* nextDate => setDate(nextDate) */ props.onSelect}
         {...props}
+        min ={new Date(new Date().setFullYear(new Date().getFullYear() - 200))}
       />
 
     </Layout>
