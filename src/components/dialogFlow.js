@@ -8,6 +8,8 @@ const BOT_USER = {
     name: 'Eagle Eye',
     avatar: 'https://w0.pngwave.com/png/695/247/chatbot-logo-robotics-robot-png-clip-art.png'
   };
+first = false;
+first_cat = null;
 
 const dialogFlowSetup = ()=>{
     Dialogflow_V2.setConfiguration(
@@ -24,7 +26,14 @@ function handleGoogleResponse(result,db,firestoreDb) {
     console.log(result.queryResult);
     
     // console.log(result.queryResult.parameters)
+    if (result.queryResult.intent.displayName == "0 - getCrime" && first == false){
+      const context = result.queryResult.outputContexts;
 
+      const test = context[1].parameters;
+      const {"crime-categories":cat} = test;
+      first_cat = cat;
+      first = true;
+    }
     
 
     if (result.queryResult.intent.displayName == "getCrimeDescription"){
@@ -55,13 +64,14 @@ function handleGoogleResponse(result,db,firestoreDb) {
       payload = {
         ...payload,
         "date-time-reported":currentDate,
-        "offence":cat[1]||cat[0],
+        "offence":cat[1]||cat[0]/* first_cat */,
         "offence-location":location,
-        "date-time-commited":dateTimeCommited,
+        "date-time-commited":new Date(dateTimeCommited),
         weapon,
         "gender":gender[0]
       }
       console.log(payload);
+      console.log(`new Category is ${first_cat} and actual is ${first_cat[0]} and cat1: ${cat[0]} and cat2: ${cat[1]}`);
 
       const {
         birthDate,
@@ -91,7 +101,8 @@ function handleGoogleResponse(result,db,firestoreDb) {
           nationality,
           occupation,
           "resident-status": residentStatus,
-          "cell-number": cellNumber
+          "cell-number": cellNumber,
+          status: "pending"
       }
       console.log(registerPayload)
 

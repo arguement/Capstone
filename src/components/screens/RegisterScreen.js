@@ -4,7 +4,8 @@ import { TextInput,Button } from 'react-native-paper';
 import Field from "../reuse/Field";
 import DatePicker from "../reuse/DatePicker";
 import { connect } from 'react-redux'
-
+import * as Location from 'expo-location';
+import * as IntentLauncher from 'expo-intent-launcher';
 
 class RegisterScreen extends Component{
 
@@ -22,9 +23,35 @@ class RegisterScreen extends Component{
         nationality: "",
         residentStatus: "",
         pass: "",
-        confirmPass: ""
+        confirmPass: "",
+        age: "",
+        location: null
+    }
+    componentDidMount(){
+        this.getLocation();
     }
 
+    async getLocation(){
+        try{
+            let { status } = await Location.requestPermissionsAsync();
+            if (status !== 'granted') {
+                // setErrorMsg('Permission to access location was denied');
+                this.setState({location:null})
+                return ;
+            }
+    
+            let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+            // setLocation(location);
+            this.setState({location})
+            console.log(location);
+        }
+        catch(error){
+            /* IntentLauncher.startActivityAsync(
+                IntentLauncher.ACTION_LOCATION_SOURCE_SETTINGS
+              ); */
+              console.log(error)
+        }
+    }
 
     register = ()=>{
         const {pass,confirmPass,...tosend} = this.state;
@@ -72,9 +99,9 @@ class RegisterScreen extends Component{
                         
                     />
                     <Field 
-                        label="Middle name"
-                        value={this.state.middleName}
-                        onChangeText={text => this.setState({middleName:text})}
+                        label="Age"
+                        value={this.state.age}
+                        onChangeText={text => this.setState({age:text})}
                         // error={!!email.error}
                         // errorText={email.error}
                         
