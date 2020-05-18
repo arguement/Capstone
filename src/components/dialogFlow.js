@@ -61,12 +61,14 @@ function handleGoogleResponse(result,db,firestoreDb) {
       let currentDate = new Date();
       const {"crime-categories":cat,"location.original":location,"date-time":dateTimeCommited,weapon,gender} = test;
 
+      const {endDateTime} = dateTimeCommited
+
       payload = {
         ...payload,
         "date-time-reported":currentDate,
-        "offence":cat[1]||cat[0]/* first_cat */,
+        "offence":/* cat[1]||cat[0] */first_cat,
         "offence-location":location,
-        "date-time-commited":new Date(dateTimeCommited),
+        "date-time-commited":endDateTime,
         weapon,
         "gender":gender[0]
       }
