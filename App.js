@@ -7,7 +7,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import ChatScreen from './src/components/screens/ChatScreen';
 import LoginScreen from './src/components/screens/Login';
 import RegisterScreen from './src/components/screens/RegisterScreen';
-
+import OpeningScreen from "./src/components/screens/OpeningScreen";
 
 //redux imports
 import store from './src/store'
@@ -33,10 +33,11 @@ function App(props) {
       <PaperProvider>
         
         <NavigationContainer>
-          <MainStack.Navigator initialRouteName="Register">
+          <MainStack.Navigator initialRouteName="Opening">
             <MainStack.Screen name="Home" component={ChatScreen} />
             <MainStack.Screen name="Login" component={LoginScreen} />
             <MainStack.Screen name="Register" component={RegisterScreen} />
+            <MainStack.Screen name="Opening" component={OpeningScreen} />
             
           </MainStack.Navigator>
         </NavigationContainer>
