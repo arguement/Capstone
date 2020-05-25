@@ -33,6 +33,7 @@ function handleGoogleResponse(result,db,firestoreDb) {
       const {"crime-categories":cat} = test;
       first_cat = cat;
       first = true;
+      console.log(`new Category is ${first_cat} and actual is ${first_cat[0]} `);
     }
     
 
@@ -66,9 +67,9 @@ function handleGoogleResponse(result,db,firestoreDb) {
       payload = {
         ...payload,
         "date-time-reported":currentDate,
-        "offence":/* cat[1]||cat[0] */first_cat,
+        "offence":/* cat[1]||cat[0] */first_cat[0],
         "offence-location":location,
-        "date-time-commited":endDateTime,
+        "date-time-commited":endDateTime || dateTimeCommited,
         weapon,
         "gender":gender[0]
       }

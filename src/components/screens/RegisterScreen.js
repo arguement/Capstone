@@ -40,7 +40,7 @@ class RegisterScreen extends Component{
                 return ;
             }
     
-            let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+            let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: false });
             // setLocation(location);
             this.setState({location})
             console.log(location);
@@ -213,7 +213,7 @@ class RegisterScreen extends Component{
                     
 
                     <Button  mode="contained" onPress={this.register}>
-                        Press me
+                        Register
                     </Button>
                     
 
